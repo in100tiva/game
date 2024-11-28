@@ -1,83 +1,55 @@
 import json
 
-# Dados do arquivo JSON
-data = {
-    "racas": [
-        {
-            "nome": "Humano",
-            "beneficios": ["+1 em todas as habilidades", "+5% de experiência adicional"]
-        },
-        {
-            "nome": "Elfo",
-            "beneficios": ["+2 Destreza", "Visão no Escuro", "Imunidade a sono mágico"]
-        },
-        {
-            "nome": "Anão",
-            "beneficios": ["+2 Constituição", "Resistência a venenos", "+1 contra gigantes"]
-        }
-    ],
-    "classes": [
-        {
-            "nome": "Guerreiro",
-            "habilidades": ["Ataque Poderoso", "Defesa Robusta", "Grito de Guerra"]
-        },
-        {
-            "nome": "Mago",
-            "habilidades": ["Bola de Fogo", "Escudo Arcano", "Teletransporte"]
-        },
-        {
-            "nome": "Ladino",
-            "habilidades": ["Ataque Furtivo", "Esconder-se nas Sombras", "Abrir Fechaduras"]
-        }
-    ]
-}
+# Carrega os dados do JSON
+def carregar_dados():
+    with open("racas_e_classes.json", "r", encoding="utf-8") as arquivo:
+        return json.load(arquivo)
 
+# Mostra as opções de raça ou classe
 def exibir_opcoes(lista, tipo):
-    print(f"\nEscolha uma {tipo}:")
-    for i, item in enumerate(lista, start=1):
+    print(f"\nEscolha sua {tipo}:")
+    for i, item in enumerate(lista, 1):
         print(f"{i}. {item['nome']}")
+        beneficios_ou_habilidades = "beneficios" if tipo == "raça" else "habilidades"
+        for beneficio in item[beneficios_ou_habilidades]:
+            print(f"   - {beneficio}")
+    escolha = int(input(f"Digite o número da {tipo} desejada: ")) - 1
+    return lista[escolha]
 
-def selecionar_opcao(lista, tipo):
-    while True:
-        try:
-            escolha = int(input(f"Digite o número da sua {tipo}: ")) - 1
-            if 0 <= escolha < len(lista):
-                return lista[escolha]
-            else:
-                print("Opção inválida. Tente novamente.")
-        except ValueError:
-            print("Entrada inválida. Por favor, insira um número.")
+# Cria o personagem
+def criar_personagem(dados):
+    print("=== Bem-vindo ao Criador de Personagem ===")
+    print("Primeiro, escolha sua raça:")
+    raca = exibir_opcoes(dados["racas"], "raça")
 
-def criar_personagem():
-    print("Bem-vindo ao criador de personagens!")
-    
-    # Escolha da raça
-    exibir_opcoes(data["racas"], "raça")
-    raca = selecionar_opcao(data["racas"], "raça")
-    print(f"\nVocê escolheu a raça: {raca['nome']}")
+    print("\nAgora, escolha sua classe:")
+    classe = exibir_opcoes(dados["classes"], "classe")
+
+    personagem = {
+        "nome": input("\nDigite o nome do seu personagem: "),
+        "raca": raca["nome"],
+        "classe": classe["nome"],
+        "beneficios": raca["beneficios"],
+        "habilidades": classe["habilidades"]
+    }
+
+    print("\n=== Personagem Criado com Sucesso! ===")
+    print(f"Nome: {personagem['nome']}")
+    print(f"Raça: {personagem['raca']}")
+    print(f"Classe: {personagem['classe']}")
     print("Benefícios:")
-    for beneficio in raca["beneficios"]:
-        print(f"- {beneficio}")
-
-    # Escolha da classe
-    exibir_opcoes(data["classes"], "classe")
-    classe = selecionar_opcao(data["classes"], "classe")
-    print(f"\nVocê escolheu a classe: {classe['nome']}")
+    for beneficio in personagem["beneficios"]:
+        print(f"   - {beneficio}")
     print("Habilidades:")
-    for habilidade in classe["habilidades"]:
-        print(f"- {habilidade}")
+    for habilidade in personagem["habilidades"]:
+        print(f"   - {habilidade}")
 
-    # Exibir resumo do personagem
-    print("\nSeu personagem foi criado com sucesso!")
-    print(f"Raça: {raca['nome']}")
-    print(f"Classe: {classe['nome']}")
-    print("Benefícios:")
-    for beneficio in raca["beneficios"]:
-        print(f"- {beneficio}")
-    print("Habilidades:")
-    for habilidade in classe["habilidades"]:
-        print(f"- {habilidade}")
+    return personagem
 
-# Executar o jogo
+# Função principal
+def main():
+    dados = carregar_dados()
+    criar_personagem(dados)
+
 if __name__ == "__main__":
-    criar_personagem()
+    main()
