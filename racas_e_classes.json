@@ -1,0 +1,31 @@
+{
+    "racas": [
+      {
+        "nome": "Humano",
+        "beneficios": ["+1 em todas as habilidades", "+5% de experiência adicional"]
+      },
+      {
+        "nome": "Elfo",
+        "beneficios": ["+2 Destreza", "Visão no Escuro", "Imunidade a sono mágico"]
+      },
+      {
+        "nome": "Anão",
+        "beneficios": ["+2 Constituição", "Resistência a venenos", "+1 contra gigantes"]
+      }
+    ],
+    "classes": [
+      {
+        "nome": "Guerreiro",
+        "habilidades": ["Ataque Poderoso", "Defesa Robusta", "Grito de Guerra"]
+      },
+      {
+        "nome": "Mago",
+        "habilidades": ["Bola de Fogo", "Escudo Arcano", "Teletransporte"]
+      },
+      {
+        "nome": "Ladino",
+        "habilidades": ["Ataque Furtivo", "Esconder-se nas Sombras", "Abrir Fechaduras"]
+      }
+    ]
+  }
+  
